@@ -1,0 +1,1 @@
+<?php echo file_get_contents('PATH_TO_DIR'); ?>
