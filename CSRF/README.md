@@ -2,7 +2,7 @@
 
 - **CSRF** là một lỗ hổng bảo mật web cho phép kẻ tấn công dụ dỗ người dùng thực hiện các hành động mà họ không có ý định thực hiện. Nó cho phép kẻ tấn công tránh một phần chính sách cùng nguồn gốc, được thiết kế để ngăn các trang web khác nhau can thiệp lẫn nhau.
 
-    ![alt text](image.png)
+    ![alt text](/CSRF/images/image.png)
 
 ## Tác động của CSRF
 
@@ -65,9 +65,9 @@ Trang web dễ bị tấn công sẽ xử lý yêu cầu theo cách thông thư�
 ### Lab: CSRF vulnerability with no defenses
 
 - Trang web của bài Lab
-    ![alt text](image-1.png)
+    ![alt text](/CSRF/images/image-1.png)
 - Đăng nhập với tài khoản `wiener:peter`
-    ![alt text](image-2.png)
+    ![alt text](/CSRF/images/image-2.png)
 
 
 
