@@ -44,7 +44,7 @@
 
 - Smuggle request để backend tiết lộ tên của **header IP** mà frontend thêm.
 - Smuggle tiếp một request khác, giả IP thành 127.0.0.1 bằng header đó, để xóa user carlos.
-    ![alt text](image.png)
+    ![alt text](/HTTP%20Request%20Smuggling/images/image.png)
 
     - Thay nó bằng `X-DrRit-Ip: 127.0.0.1`
     - Gửi yêu cầu xóa người dùng `Carlos`
@@ -64,9 +64,9 @@
 
 - Có một số trường bị ẩn ở api `/post/comment`
 
-    ![alt text](image-1.png)
+    ![alt text](/HTTP%20Request%20Smuggling/images/image-1.png)
 
-    ![alt text](image-2.png)
+    ![alt text](/HTTP%20Request%20Smuggling/images/image-2.png)
 
     - Thử payload XSS ở `userAgent`. Phần response: `"userAgent" value = "...>"` → payload sẽ là `"><script>alert(1)</script>`
 
@@ -81,17 +81,17 @@
 
 - Intruder solve this lab
 
-    ![alt text](image-4.png)
+    ![alt text](/HTTP%20Request%20Smuggling/images/image-4.png)
 
-    ![alt text](image-3.png)
+    ![alt text](/HTTP%20Request%20Smuggling/images/image-3.png)
 
 - Dán `session admin` vào, reload rồi xóa carlos
 
-    ![alt text](image-5.png)
+    ![alt text](/HTTP%20Request%20Smuggling/images/image-5.png)
 
-    ![alt text](image-6.png)
+    ![alt text](/HTTP%20Request%20Smuggling/images/image-6.png)
 
-    ![alt text](image-7.png)
+    ![alt text](/HTTP%20Request%20Smuggling/images/image-7.png)
 
 ## Lab: HTTP request smuggling, basic CL.TE vulnerability
 

@@ -48,34 +48,34 @@
 - Tài khoản cung cấp `wiener:peter`
 
 - Trang web của bài lab:
-    ![alt text](/File%20Upload/Image/image-1.png)
+    ![alt text](/File%20Upload/images/image-1.png)
 
 - Sau khi login, nhận thấy trang web cho phép upload lên 1 file để cập nhật ảnh đại diện:
-    ![alt text](/File%20Upload/Image/image-2.png)
+    ![alt text](/File%20Upload/images/image-2.png)
 - Trên Burp, thử upload 1 file bất kỳ, endpoint cho phép làm điều này là `/my-account/avatar`
-    ![alt text](/File%20Upload/Image/image-3.png)
+    ![alt text](/File%20Upload/images/image-3.png)
 - Thông báo phản hồi rằng đã cập nhật ảnh đại diện thành công, cùng với đó là hình ảnh đã được thay đổi
-    ![alt text](/File%20Upload/Image/image-4.png)
-    ![alt text](/File%20Upload/Image/image-5.png)
+    ![alt text](/File%20Upload/images/image-4.png)
+    ![alt text](/File%20Upload/images/image-5.png)
 
 - Thử thay thế nó bằng 1 file [RCE](/RCE.php) được viết bằng mã `php`:
     ```php
     <?php echo system($_GET['cmd']); ?>
     ```
-    ![alt text](/File%20Upload/Image/image-6.png)
+    ![alt text](/File%20Upload/images/image-6.png)
 - File vừa upload thành công
-    ![alt text](/File%20Upload/Image/image-7.png)
+    ![alt text](/File%20Upload/images/image-7.png)
 - Thử up tiếp 1 file với nội dung:
     ```php
     <?php echo file_get_contents('/home/carlos/secret'); ?>
     ```
     - Hàm `file_get_contents` cho phép đọc nội dung của file tại địa chỉ `/home/carlos/secret`
 - Sau khi upload, nội dung của file đã được đọc
-    ![alt text](/File%20Upload/Image/image-8.png)
+    ![alt text](/File%20Upload/images/image-8.png)
     `nmkjgM6OQiKk9gNYBVFJ2Hi2zWPuWXt7`
 
 - Submit nội dung là đã hoàn thành lab này
-    ![alt text](/File%20Upload/Image/image-9.png)
+    ![alt text](/File%20Upload/images/image-9.png)
 
 ### Exploiting flawed validation of file uploads
 
@@ -94,7 +94,7 @@ Khi gửi các biểu mẫu HTML, trình duyệt thường gửi dữ liệu qua
 
         ---------------------------012345678901234567890123456
         Content-Disposition: form-data; name="image"; filename="example.jpg"
-        Content-Type: image/jpeg
+        Content-Type: images/jpeg
 
         [...binary content of example.jpg...]
 
@@ -112,21 +112,21 @@ Khi gửi các biểu mẫu HTML, trình duyệt thường gửi dữ liệu qua
 - Phần thân của yêu cầu được chia thành các phần riêng biệt cho từng trường trong biểu mẫu. Mỗi phần chứa một tiêu đề `Content-Disposition`, cung cấp thông tin cơ bản về trường đầu vào mà nó liên quan đến. Các phần này cũng có thể chứa tiêu đề `Content-Type`, cho biết loại `MIME` của dữ liệu đã được gửi qua trường nhập liệu đó.
 
 
-- Một cách mà các trang web có thể thử xác thực các tệp tải lên là kiểm tra xem tiêu đề `Content-Type` dành riêng cho đầu vào này có khớp với loại `MIME` mong đợi hay không. Ví dụ, nếu máy chủ chỉ mong đợi các tệp hình ảnh, thì máy chủ có thể chỉ cho phép các loại như `image/jpeg` và `image/png`. Có thể phát sinh vấn đề khi giá trị của tiêu đề này được máy chủ ngầm tin tưởng. Nếu không thực hiện xác thực nào khác để kiểm tra xem nội dung của tệp có thực sự khớp với loại MIME được cho là hay không, thì biện pháp phòng thủ này có thể dễ dàng bị bỏ qua bằng các công cụ như **Burp Repeater**.
+- Một cách mà các trang web có thể thử xác thực các tệp tải lên là kiểm tra xem tiêu đề `Content-Type` dành riêng cho đầu vào này có khớp với loại `MIME` mong đợi hay không. Ví dụ, nếu máy chủ chỉ mong đợi các tệp hình ảnh, thì máy chủ có thể chỉ cho phép các loại như `images/jpeg` và `images/png`. Có thể phát sinh vấn đề khi giá trị của tiêu đề này được máy chủ ngầm tin tưởng. Nếu không thực hiện xác thực nào khác để kiểm tra xem nội dung của tệp có thực sự khớp với loại MIME được cho là hay không, thì biện pháp phòng thủ này có thể dễ dàng bị bỏ qua bằng các công cụ như **Burp Repeater**.
 
 
 #### Lab: Web shell upload via Content-Type restriction bypass
 
 
 - Thử upload 1 file lên làm avatar
-    ![alt text](/File%20Upload/Image/image.png)
-- Như bài lab trước, lần này upload file có nội dung tương tự để đọc nội dung file tại địa chỉ `/home/carlos/secret`. Nhưng lần này phải thay đổi nội dung `Content-Type` thành `image/jpeg`
-    ![alt text](/File%20Upload/Image/image-10.png)
+    ![alt text](/File%20Upload/images/image.png)
+- Như bài lab trước, lần này upload file có nội dung tương tự để đọc nội dung file tại địa chỉ `/home/carlos/secret`. Nhưng lần này phải thay đổi nội dung `Content-Type` thành `images/jpeg`
+    ![alt text](/File%20Upload/images/image-10.png)
 - Reload lại trang `home` và `GET` lại endpoint `/files/avatars/avatar.php` là đã đọc được nội dung file 
-    ![alt text](/File%20Upload/Image/image-11.png)
+    ![alt text](/File%20Upload/images/image-11.png)
 
 - Submit nội dung là hoàn thành bài lab này
-    ![alt text](/File%20Upload/Image/image-12.png)
+    ![alt text](/File%20Upload/images/image-12.png)
 
 
 ### Preventing file execution in user-accessible directories
@@ -155,16 +155,16 @@ Khi gửi các biểu mẫu HTML, trình duyệt thường gửi dữ liệu qua
 #### Lab: Web shell upload via path traversal
 
 - Sau khi upload avartar bằng mã khai thác `php`, nhận thấy phản hồi của trang web trả về đúng với nội dung mã khai thác `(text/plain)`.
-    ![alt text](/File%20Upload/Image/image-13.png)
+    ![alt text](/File%20Upload/images/image-13.png)
 - Thử lại bằng cách thay đổi đường dẫn file qua kỹ thuật `path traversal` 
     ```bash
     Content-Disposition: form-data; name="avatar"; filename="../avatar.php"
     ```
-    ![alt text](/File%20Upload/Image/image-14.png)
+    ![alt text](/File%20Upload/images/image-14.png)
 - `GET` lại request, lần này thay đổi endpoint khớp với path vừa rồi là đã đọc được nội dung file
-    ![alt text](/File%20Upload/Image/image-15.png)
+    ![alt text](/File%20Upload/images/image-15.png)
 - Submit nội dung là hoàn thành bài lab này
-    ![alt text](/File%20Upload/Image/image-16.png)
+    ![alt text](/File%20Upload/images/image-16.png)
 
 
 ### Insufficient blacklisting of dangerous file types
@@ -191,20 +191,20 @@ Như đã đề cập trong phần trước, các máy chủ thường không th
 #### Lab: Web shell upload via extension blacklist bypass
 
 - Lần này thử upload 1 file shell php như các bài lab trước, nhưng kết quả trả về không là `200 OK` mà là `403 Forbidden` kèm với dòng thông báo `php files are not allowed` - tức là trang web không cho phép upload file `.php`
-    ![alt text](/File%20Upload/Image/image-17.png)
+    ![alt text](/File%20Upload/images/image-17.png)
 - Thử bypass lại bằng cách thay đổi 1 số tham số:
-    ![alt text](/File%20Upload/Image/image-18.png)
+    ![alt text](/File%20Upload/images/image-18.png)
     - Sửa tên file thành `.htaccess`
     - Thay đổi `Content-Type` thành `text/plain`
     - Thay đổi nội dung payload php thành `AddType application/x-httpd-php .l33t`. Điều này ánh xạ một phần mở rộng tùy ý `(.l33t)` tới ứng dụng loại `MIME` thực thi `/x-httpd-php`. Vì máy chủ sử dụng module `mod_php` nên nó biết cách xử lý việc này rồi.
     - Tham khảo thêm tại [htaccess](https://httpd.apache.org/docs/2.4/howto/htaccess.html)
 - Bypass này cho phép xử lý các tệp có phần mở rộng `.l33t`. Thay vì coi chúng là tệp văn bản bình thường, Apache sẽ xử lý chúng như các tệp `PHP`. Điều này có thể cho phép kẻ tấn công tải lên một tệp `PHP` với phần mở rộng `.l33t` (vốn có thể không bị nghi ngờ là một tệp `PHP`) và thực thi mã `PHP` trên máy chủ khi truy cập vào tệp đó.
 - Sau đó, upload lại file giúp `RCE`, nhưng lần này thay đổi phần mở rộng thành `.l33t`
-    ![alt text](/File%20Upload/Image/image-19.png)
+    ![alt text](/File%20Upload/images/image-19.png)
 - `GET` lại đến endpoint `/files/avatars/avatar.l33t` là có thể xem được nội dung file
-    ![alt text](/File%20Upload/Image/image-20.png)
+    ![alt text](/File%20Upload/images/image-20.png)
 - Submit nội dung là hoàn thành bài lab này
-    ![alt text](/File%20Upload/Image/image-21.png)
+    ![alt text](/File%20Upload/images/image-21.png)
 
 
 ### Obfuscating file extensions
@@ -227,20 +227,20 @@ Như đã đề cập trong phần trước, các máy chủ thường không th
 #### Lab: Web shell upload via obfuscated file extension
 
 - Như các bài lab trước, lần này cũng thử upload 1 shell code lên và quan sát phản hồi.
-    ![alt text](/File%20Upload/Image/image-23.png)
+    ![alt text](/File%20Upload/images/image-23.png)
     - Thông báo trả về cho thấy trang web chỉ cho phép upload những file có định dạng `JPG & PNG`
 - Thử thay đổi phần mở rộng thành `.php.png`, thêm 1 chút tham số mã hóa `%00` (tương đương với `null byte` trong URL encoded)
-    ![alt text](/File%20Upload/Image/image-22.png)
+    ![alt text](/File%20Upload/images/image-22.png)
     - Ngay lập tức, thông báo rằng file `avartar.php.png` đã được upload thành công
 - Gọi lại tới endpoint `files/avatars/avatar.php` và truyền tham số `?cmd=ls`
-    ![alt text](/File%20Upload/Image/image-24.png)
+    ![alt text](/File%20Upload/images/image-24.png)
 - Xem đường dẫn, thử đọc file `/etc/passwd`
-    ![alt text](/File%20Upload/Image/image-25.png)
-    ![alt text](/File%20Upload/Image/image-26.png)
+    ![alt text](/File%20Upload/images/image-25.png)
+    ![alt text](/File%20Upload/images/image-26.png)
 - Đầu bài yêu cầu đọc file tại đường dẫn `/home/carlos/secret`
-    ![alt text](/File%20Upload/Image/image-27.png)
+    ![alt text](/File%20Upload/images/image-27.png)
 - Submit nội dung là hoàn thành bài lab này
-    ![alt text](/File%20Upload/Image/image-28.png)
+    ![alt text](/File%20Upload/images/image-28.png)
 
 ### Flawed validation of the file's contents
 
@@ -255,30 +255,30 @@ Như đã đề cập trong phần trước, các máy chủ thường không th
 #### Lab: Remote code execution via polyglot web shell upload
 
 - Như những bài trước, thử upload 1 file mã khai thác lên và chờ phản hồi từ web
-    ![alt text](/File%20Upload/Image/image-29.png)
+    ![alt text](/File%20Upload/images/image-29.png)
     - Lỗi trả về là `file is not a valid image`, khả năng cao trang web đã lọc thông tin tải lên đầu vào, chỉ cho phép upload ảnh đúng định dạng `png/jpeg`
 
 - Tôi đã chuẩn bị một ảnh có đúng định dạng với yêu cầu của trang web. Sử dụng `exiftool` cho biết thông tin về nó
-    ![alt text](/File%20Upload/Image/image-30.png)
+    ![alt text](/File%20Upload/images/image-30.png)
 
 - Sử dụng `exiftool` để upload mã khai thác ẩn vào trong phần `comment`
-    ![alt text](/File%20Upload/Image/image-31.png)
+    ![alt text](/File%20Upload/images/image-31.png)
 
 - Xem lại nội dung của nó
-    ![alt text](/File%20Upload/Image/image-32.png)
+    ![alt text](/File%20Upload/images/image-32.png)
 
 - Tôi đã upload thử avatar lên và thành công
-    ![alt text](/File%20Upload/Image/image-34.png)
+    ![alt text](/File%20Upload/images/image-34.png)
 - Sau đó chuyển nó đến repeater và thay đổi định dạng mới thành `.php`.
-    ![alt text](/File%20Upload/Image/image-33.png)
+    ![alt text](/File%20Upload/images/image-33.png)
     - Việc đổi định dạng thành `.php` sẽ giúp thực thi mã `php` được ẩn bên trong ảnh
     - Trang web không thể quét được vì nó đã xác thực định dạng ảnh (`.png`) ngay từ đầu là hợp lệ
 
 - Gọi đến api `GET /files/avatars/Djp_thun.php?` và truyền tham số `cmd=ls` để list ra những file có trong thư mục hiện tại
-    ![alt text](/File%20Upload/Image/image-35.png)
+    ![alt text](/File%20Upload/images/image-35.png)
 
 - Bài yêu cầu đọc nội dung của file tại path `/home/carlos/secret` nên tôi truyền đường dẫn đó vào
-    ![alt text](/File%20Upload/Image/image-37.png)
+    ![alt text](/File%20Upload/images/image-37.png)
 
 - Sau 1 hồi loay hoay (nó hơi rối) cuối cùng tôi đã tìm được file `secret`, submit nó là hoàn thành bài này
-    ![alt text](/File%20Upload/Image/image-36.png)
+    ![alt text](/File%20Upload/images/image-36.png)

