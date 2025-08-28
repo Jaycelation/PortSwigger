@@ -1,0 +1,17 @@
+jwks.json
+jwks
+oauth/jwks
+oauth2/jwks
+api/jwks
+auth/jwks
+openid/jwks
+oidc/jwks
+certs
+certs.json
+keys
+public-keys
+.well-known/jwks.json
+.well-known/jwks
+.well-known/openid-configuration
+.well-known/oauth-authorization-server
+.well-known/keys.json

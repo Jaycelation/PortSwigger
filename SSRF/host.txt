@@ -1,0 +1,51 @@
+example.com &@web-attacker.com# @web-attacker.com
+example.com;.web-attacker.com
+example.com:@web-attacker.com
+example.com:443:\@@web-attacker.com
+example.com:443\@web-attacker.com
+example.com:443#\@web-attacker.com
+example.com:anything@web-attacker.com
+example.com?@web-attacker.com
+example.com._.web-attacker.com
+example.com.-.web-attacker.com
+example.com.,.web-attacker.com
+example.com.;.web-attacker.com
+example.com.!.web-attacker.com
+example.com.'.web-attacker.com
+example.com.".web-attacker.com
+example.com.(.web-attacker.com
+example.com.).web-attacker.com
+example.com.{.web-attacker.com
+example.com.}.web-attacker.com
+example.com.*.web-attacker.com
+example.com.&.web-attacker.com
+example.com.`.web-attacker.com
+example.com.+.web-attacker.com
+example.com.web-attacker.com
+example.com.=.web-attacker.com
+example.com.~.web-attacker.com
+example.com.$.web-attacker.com
+example.com[@web-attacker.com
+example.com@web-attacker.com
+example.com\;@web-attacker.com
+example.com&anything@web-attacker.com
+example.com#web-attacker.com
+example.com%23web-attacker.com
+example.comweb-attacker.com
+web-attacker.com	example.com
+web-attacker.com
+example.com
+web-attacker.com
+example.com
+web-attacker.com
+example.com
+web-attacker.com example.com
+web-attacker.com example.com
+web-attacker.com @example.com
+web-attacker.com &@example.com
+web-attacker.com example.com
+web-attacker.com;https://example.com
+web-attacker.com:\@@example.com
+0://web-attacker.com:80;http://example.com:80/
+web-attacker.com?example.com
+web-attacker.com?
