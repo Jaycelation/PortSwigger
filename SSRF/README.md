@@ -68,8 +68,8 @@
     stockApi=http://localhost%2523@stock.weliketoshop.net/
     ```
 
-    ![alt text](image.png)
+    ![alt text](/SSRF/images/image.png)
 
     - Xóa carlos
 
-    ![alt text](image-1.png)
+    ![alt text](/SSRF/images/image-1.png)
